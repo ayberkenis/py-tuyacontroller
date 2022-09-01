@@ -1,4 +1,4 @@
-let chrome_tab = "";
+let global_notif_count = 0;
 // setInterval(async function () {
 //     const tabs = await chrome.tabs.query({
 //         url: [
@@ -15,13 +15,14 @@ chrome.tabs.onUpdated.addListener(function (
     changeInfo,
     tab
 ) {
-    let tab_title = tab.title.toString();
-    if (tab.url === "https://web.whatsapp.com/") {
-        if (tab_title !== chrome_tab) {
-            sendNotification();
-            chrome_tab = tab.title;
+if (tab.url === "https://web.whatsapp.com/") {
+    if (tab.title.includes("(") && tab.title.includes(")")) {
+        let current_notif_count = tab.title.match(/\d+/)[0]
+        if (current_notif_count > global_notif_count) {
+            global_notif_count = current_notif_count
+            sendNotification()
+            }
         }
-
     }
 }
 );
