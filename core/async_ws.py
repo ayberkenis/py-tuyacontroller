@@ -2,14 +2,11 @@ from aiohttp import web
 import aiohttp_cors
 from core.controller import LightController
 
+lc = LightController()
 
 async def hello(request):
-    lc = LightController()
     lc.notification_light('green')
     return web.json_response({'data': 'success'})
-
-
-
 
 app = web.Application()
 cors = aiohttp_cors.setup(app, defaults={
@@ -25,4 +22,5 @@ for route in list(app.router.routes()):
     cors.add(route)
 
 def app_export(port=8080):
+    lc.get_current_status()
     return web, app

@@ -3,6 +3,7 @@ import webcolors
 import typing
 import time
 
+
 class LightController:
     def __init__(self):
         self.bulb_1 = tinytuya.BulbDevice('bf0704eeba8839d356e3u3', '192.168.1.48', '67177e6b80750a56')
@@ -17,6 +18,7 @@ class LightController:
         self.rainbow_fast = "05464601000003e803e800000000464601007803e803e80000000046460100f003e803e800000000464601003d03e803e80000000046460100ae03e803e800000000464601011303e803e800000000"
         self.disco = "06646401000003e803e800000000646401007003e803e80000000064640100f003e803e80000000064640100c903de03e800000000646401013503e803e800000000646401009803e803e800000000646401003b03e803e800000000646401009d007701f400000000"
         self.rainbow_pulse = "07464602000003e803e800000000464602007803e803e80000000046460200f003e803e800000000464602003d03e803e80000000046460200ae03e803e800000000464602011303e803e800000000"
+        self.initial_payloads = []
 
     def __set_version__(self):
         for device in self.devices:
@@ -52,37 +54,37 @@ class LightController:
             raise ValueError("Brightness must be between 0 and 100")
         else:
             brightness = brightness * 10
-            print(brightness)
             for device in self.devices:
                 device.set_brightness(int(brightness))
 
     def notification_light(self, color):
-        self.change_brightness(100)
-        self.change_color('white')
-        time.sleep(1)
+        self.get_current_status()
         self.change_color(color)
-        time.sleep(1)
-        self.change_color('white')
-        time.sleep(1)
+        self.get_current_status()
         self.change_color(color)
-        time.sleep(1)
-        self.change_color('white')
-        time.sleep(1)
+        self.get_current_status()
 
+
+    def get_current_status(self):
+        payloads = self.__send_receive__()
+        for p in payloads:
+            for d in self.devices:
+                d._send_receive(p)
+
+
+    def total_white(self):
+        for device in self.devices:
+            device.set_white(1000, 1000)
 
     def __send_receive__(self):
+        payloads = []
         for i, d in enumerate(self.devices):
             d.set_socketPersistent(True)
-            print(f"[{i}] > Send Request for Status < ")
             payload = d.generate_payload(tinytuya.DP_QUERY)
             d.send(payload)
-            print(f"[{i}] Begin Monitor Loop <")
-            # See if any data is available
             data = d.receive()
-            print(f"[{i}] > Received Payload: {data}")
-            # Send keyalive heartbeat
-            print(f"[{i}] > Send Heartbeat Ping < ")
             payload = d.generate_payload(tinytuya.HEART_BEAT)
             d.send(payload)
-
+            payloads.append(payload)
+        return payloads
 

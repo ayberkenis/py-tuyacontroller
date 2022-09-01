@@ -1,24 +1,30 @@
 let chrome_tab = "";
+// setInterval(async function () {
+//     const tabs = await chrome.tabs.query({
+//         url: [
+//             "https://web.whatsapp.com/*",
+//         ],
+//     });
+//
+//     checkForTitle(tabs[0]);
+//     chrome_tab = tabs[0].title;
+// }, 5000)
 
-setInterval(async function () {
-    const tabs = await chrome.tabs.query({
-        url: [
-            "https://web.whatsapp.com/*",
-        ],
-    });
+chrome.tabs.onUpdated.addListener(function (
+    tabId,
+    changeInfo,
+    tab
+) {
+    let tab_title = tab.title.toString();
+    if (tab.url === "https://web.whatsapp.com/") {
+        if (tab_title !== chrome_tab) {
+            sendNotification();
+            chrome_tab = tab.title;
+        }
 
-    checkForTitle(tabs[0]);
-    chrome_tab = tabs[0].title;
-}, 5000)
-
-
-function checkForTitle(tab) {
-    console.log(chrome_tab)
-    console.log(tab.title)
-    if (chrome_tab !== tab.title) {
-        sendNotification()
     }
 }
+);
 
 async function sendNotification() {
     const response = await fetch("http://localhost:8080/api/v1/whatsapp_notification/", {
