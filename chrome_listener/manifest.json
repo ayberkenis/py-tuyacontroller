@@ -1,11 +1,15 @@
 {
-  "name": "WNWD",
-  "description": "Whatsapp Notification Webhook Dispatcher for bulb-notifications-python",
+  "name": "PyTuyaController-Extension",
+  "description": "PyTuyaController-Extension for bulb-notifications-python",
   "version": "1.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
   "host_permissions" : ["*://*.whatsapp.com/"],
-  "permissions": ["storage", "tabs", "scripting", "webRequest"]
+  "permissions": ["storage", "tabs", "scripting", "webRequest"],
+  "options_page": "options.html",
+    "action": {
+    "default_popup": "popup.html"
+  }
 }

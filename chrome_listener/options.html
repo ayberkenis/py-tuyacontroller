@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WNWD - Options</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    .common-text {
+                font-size: 22px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container > * {
+        margin-top: 2.5%;
+    }
+
+    .input-wrapper, .input-wnwd {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input.input-styler, select.input-styler {
+        width: 100%;
+        height: 50px;
+        border: gray solid;
+        border-radius: 10px;
+        padding: 0 10px;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    select.input-styler {
+        height: 60px;
+        border: gray solid;
+    }
+
+    .input-wrapper-hz {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+    label > input, label > select {
+        margin-top: 1%;
+    }
+
+    small {
+        color: gray;
+    }
+
+    #status {
+        color: green;
+        font-size: 22px;
+        font-family: 'Poppins', sans-serif;
+    }
+    #save {
+        width: max-content;
+        height: 50px;
+        border-radius: 10px;
+        border: 0 solid;
+        padding: 0 10px;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        background-color: #00b300;
+        color: white;
+    }
+    #check {
+        width: 120px;
+        border-radius: 5px;
+        border: 0 solid;
+        padding: 0 10px;
+        font-size: 16px;
+        font-family: 'Poppins', sans-serif;
+        background-color: #00b300;
+        color: white;
+    }
+
+    .checkserver {
+        width: max-content;
+        height: 50px;
+        padding: 0 10px;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        color: black;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .checkserver p {
+        margin-left: 10%;
+    }
+
+</style>
+<div class="intro" style="font-family: 'Poppins', sans-serif; font-size: 24px; width:100%;max-width: 50%; display: flex; justify-content: center; align-content: center; margin: 0 auto;">
+    <p>Welcome to PyTuyaController-Extension. It is a Chrome extension that works with PyTuyaController to control your Tuya devices.
+    It only works with devices that are connected to the same network as your computer.
+        Get more info at <a href="https://github.com/ayberkenis/pytuyacontroller">Github.com </a></p>
+
+</div>
+    <div class="checkserver">
+        <button id="check" class="common-text">Check Server</button>
+        <p id="serverstatus" class="common-text"></p>
+    </div>
+<div class="container" style="font-family: 'Poppins', sans-serif; font-size: 22px">
+    <small>PyTuyaController-Extension can only check for a website at the moment. But we're planning to add more options.</small>
+    <div class="input-wrapper">
+        <div class="input-wnwd"></div>
+            <label for="choose_site">Choose from Open Tabs</label>
+            <select class="input-styler" id="choose_site">
+            </select>
+        </div>
+
+    <div class="input-wrapper">
+        <label for="watch_for_type" class="common-text" style="margin-top: 2.5%;">Which method do you want WNWD to listen for?</label>
+            <select class="input-styler" id="watch_for_type">
+                <option value="numeric">Numeric Notification (ie: (1) Whatsapp -> (2) Whatsapp)</option>
+                <option value="text_constant">Text Constant Change (ie: You have new mail -> Example Site -> You have new mail)</option>
+            </select>
+    </div>
+    <button id="save">Save Options</button>
+    <p id="status"></p>
+</div>
+<script src="options.js"></script>
+
+</body>
+</html>

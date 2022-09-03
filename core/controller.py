@@ -18,8 +18,7 @@ class LightController:
         self.rainbow_fast = "05464601000003e803e800000000464601007803e803e80000000046460100f003e803e800000000464601003d03e803e80000000046460100ae03e803e800000000464601011303e803e800000000"
         self.disco = "06646401000003e803e800000000646401007003e803e80000000064640100f003e803e80000000064640100c903de03e800000000646401013503e803e800000000646401009803e803e800000000646401003b03e803e800000000646401009d007701f400000000"
         self.rainbow_pulse = "07464602000003e803e800000000464602007803e803e80000000046460200f003e803e800000000464602003d03e803e80000000046460200ae03e803e800000000464602011303e803e800000000"
-        self.initial_states = []
-        asyncio.run(self.set_initial_states())
+
 
     def __set_version__(self):
         for device in self.devices:
@@ -58,27 +57,12 @@ class LightController:
             for device in self.devices:
                 device.set_brightness(int(brightness))
 
-    async def notification_light(self, color):
+    async def sendnotification(self, color):
         await self.total_white()
         await asyncio.sleep(1)
         await self.change_color(color)
         await asyncio.sleep(1)
         await self.total_white()
-
-
-    async def set_initial_states(self):
-        for i, d in enumerate(self.devices):
-            data = {i: d.status()['dps']}
-            self.initial_states.append(data)
-        return self.initial_states
-
-    async def reset_to_initial(self):
-        print(len(self.devices))
-        print(len(self.initial_states))
-        for i, d in enumerate(self.devices):
-            print(self.initial_states[i])
-            payload = d.generate_payload(tinytuya.CONTROL, )
-            d._send_receive(payload)
 
 
     async def total_white(self):
